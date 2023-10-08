@@ -1,0 +1,27 @@
+name: Action Test
+on:
+  workflow_dispatch:
+    inputs:
+      token:
+        description: Raygun token
+        required: true
+      project_id:
+        description: Project id in Raygun to use
+        required: true
+      base_url:
+        description: Base url of sourcemap
+        required: true
+
+
+jobs:
+  test-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Send things
+        uses: ./
+        with:
+          token: ${{github.event.inputs.token}}
+          project_id: ${{github.event.inputs.project_id}}
+          base_url: ${{github.event.inputs.base_url}}
+

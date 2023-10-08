@@ -1,0 +1,22 @@
+name: Upload Sourcemaps to Elastic
+description: Upload generated sourcemaps to Elastic
+author: Tom Varley
+branding:
+  icon: activity
+  color: gray-dark
+inputs:
+  token:
+    description: Elastic external access token to allow sending of sourcemaps
+    required: true
+  base_url:
+    required: true
+    description: The base url of the sourcemap you would like to associate the file with
+  project_id:
+    required: true
+    description:
+  folder:
+    description: Target folder to check for sourcemaps
+    default: './'
+runs:
+  using: node16
+  main: dist/index.js
