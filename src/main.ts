@@ -28,24 +28,19 @@ async function run(): Promise<void> {
       formData.append("url", url);
       formData.append("file", fileStream);
 
-      core.debug(
-        `Calling url: ${config.elastic_url}/api/apm/sourcemaps`
-      );
+      core.debug(`Calling url: ${config.elastic_url}/api/apm/sourcemaps`);
 
       core.info(`Sending sourcemap: ${sourcemap} with url ${url} to Elastic`);
 
-      const res = await fetch(
-        `${config.elastic_url}/api/apm/sourcemaps`,
-        {
-          method: "POST",
-          headers: {
-            "Authorization": `ApiKey ${config.token}`,
-            "Content-Type": `multipart/form-data; boundary=${formData.getBoundary()}`,
-            "kbn-xsrf": "true"
-          },
-          body: formData,
-        }
-      );
+      const res = await fetch(`${config.elastic_url}/api/apm/sourcemaps`, {
+        method: "POST",
+        headers: {
+          Authorization: `ApiKey ${config.token}`,
+          "Content-Type": `multipart/form-data; boundary=${formData.getBoundary()}`,
+          "kbn-xsrf": "true",
+        },
+        body: formData,
+      });
 
       core.debug(`Raw response: ${res}`);
 

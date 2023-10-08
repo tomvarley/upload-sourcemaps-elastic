@@ -1,6 +1,6 @@
 {
   "name": "upload-sourcemaps-elastic",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Upload sourcemaps in a folder to Elastic",
   "author": "Tom Varley",
