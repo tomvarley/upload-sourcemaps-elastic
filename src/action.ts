@@ -12,12 +12,22 @@ export interface ActionConfig {
   /**
    * The base url of the sourcemap that is being uploaded
    */
+  elastic_url: string;
+
+  /**
+   * The base url of the sourcemap that is being uploaded
+   */
   base_url: string;
 
   /**
-   * Project id in raygun to upload sourcemaps
+   * Service name in Elastic to upload sourcemaps
    */
-  project_id: string;
+  service_name: string;
+
+  /**
+   * Service version in Elastic to upload sourcemaps
+   */
+  service_version: string;
 
   /**
    * Folder to recursively look for sourcemaps
@@ -28,8 +38,10 @@ export interface ActionConfig {
 export function getConfig(): ActionConfig {
   return {
     token: core.getInput("token", { required: true }),
+    elastic_url: core.getInput("elastic_url", { required: true }),
     base_url: trimTrailingSlash(core.getInput("base_url", { required: true })),
-    project_id: core.getInput("project_id", { required: true }),
+    service_name: core.getInput("service_name", { required: true }),
+    service_version: core.getInput("service_version", { required: true }),
     folder: (() => {
       const input = core.getInput("folder");
       return input === "" ? "./" : input;

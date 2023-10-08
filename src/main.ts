@@ -29,17 +29,19 @@ async function run(): Promise<void> {
       formData.append("file", fileStream);
 
       core.debug(
-        `Calling url: https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`
+        `Calling url: ${config.elastic_url}/api/apm/sourcemaps`
       );
 
       core.info(`Sending sourcemap: ${sourcemap} with url ${url} to Elastic`);
 
       const res = await fetch(
-        `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
+        `${config.elastic_url}/api/apm/sourcemaps`,
         {
           method: "POST",
           headers: {
+            "Authorization": `ApiKey ${config.token}`,
             "Content-Type": `multipart/form-data; boundary=${formData.getBoundary()}`,
+            "kbn-xsrf": "true"
           },
           body: formData,
         }

@@ -10,7 +10,9 @@ describe("Action", () => {
       mockEnvConfig = {
         token: "secret",
         base_url: "https://www.test.com",
-        project_id: "123abc",
+        elastic_url: "https://www.elastic.com",
+        service_name: "123abc",
+        service_version: "1.0.0",
         folder: "./woo/test",
       };
 
@@ -20,8 +22,12 @@ describe("Action", () => {
             return mockEnvConfig.token;
           case "base_url":
             return mockEnvConfig.base_url;
-          case "project_id":
-            return mockEnvConfig.project_id;
+          case "elastic_url":
+            return mockEnvConfig.elastic_url;
+          case "service_name":
+            return mockEnvConfig.service_name;
+          case "service_version":
+            return mockEnvConfig.service_version;
           case "folder":
             return mockEnvConfig.folder;
           default:
@@ -40,7 +46,9 @@ describe("Action", () => {
       // Assert that the numbers / types have been properly loaded.
       expect(config.token).toStrictEqual("secret");
       expect(config.base_url).toStrictEqual("https://www.test.com");
-      expect(config.project_id).toStrictEqual("123abc");
+      expect(config.elastic_url).toStrictEqual("https://www.elastic.com");
+      expect(config.service_name).toStrictEqual("123abc");
+      expect(config.service_version).toStrictEqual("1.0.0");
       expect(config.folder).toStrictEqual("./woo/test");
     });
 
