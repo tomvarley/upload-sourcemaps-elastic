@@ -11,9 +11,15 @@ inputs:
   base_url:
     required: true
     description: The base url of the sourcemap you would like to associate the file with
-  project_id:
+  service_name:
+    description: Service name in elastic
     required: true
-    description:
+  service_version:
+    description: Service version in elastic
+    required: true
+  elastic_url:
+    description: Url or Elastic instance to send sourcemap to
+    required: true
   folder:
     description: Target folder to check for sourcemaps
     default: './'
