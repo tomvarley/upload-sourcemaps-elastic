@@ -35,7 +35,7 @@ async function run(): Promise<void> {
       const res = await fetch(`${config.elastic_url}/api/apm/sourcemaps`, {
         method: "POST",
         headers: {
-          Authorization: `ApiKey ${config.token}`,
+          "Authorization": `ApiKey ${config.token}`,
           "Content-Type": `multipart/form-data; boundary=${formData.getBoundary()}`,
           "kbn-xsrf": "true",
         },
@@ -49,7 +49,7 @@ async function run(): Promise<void> {
           `Sending failed with response: [${res.status}] ${res.statusText}`
         );
       }
-      core.debug(`Response json: ${await res.json()}`);
+      core.debug(`Response json: ${JSON.stringify(await res.json())}`);
     }
   } catch (error) {
     if (error instanceof Error) {
