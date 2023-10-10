@@ -22295,8 +22295,10 @@ async function run() {
       const fileStream = import_fs_jetpack.default.createReadStream(sourcemap, {
         encoding: "utf8"
       });
-      formData.append("url", url);
-      formData.append("file", fileStream);
+      formData.append("service_name", config.service_name);
+      formData.append("service_version", config.service_version);
+      formData.append("bundle_filepath", url);
+      formData.append("sourcemap", fileStream);
       core2.debug(`Calling url: ${config.elastic_url}/api/apm/sourcemaps`);
       core2.info(`Sending sourcemap: ${sourcemap} with url ${url} to Elastic`);
       const res = await fetch(`${config.elastic_url}/api/apm/sourcemaps`, {
