@@ -25,10 +25,10 @@ async function run(): Promise<void> {
         encoding: "utf8",
       });
 
-      formData.append('service_name', config.service_name);
-      formData.append('service_version', config.service_version);
-      formData.append('bundle_filepath', url);
-      formData.append('sourcemap', fileStream);
+      formData.append("service_name", config.service_name);
+      formData.append("service_version", config.service_version);
+      formData.append("bundle_filepath", url);
+      formData.append("sourcemap", fileStream);
 
       core.debug(`Calling url: ${config.elastic_url}/api/apm/sourcemaps`);
 
