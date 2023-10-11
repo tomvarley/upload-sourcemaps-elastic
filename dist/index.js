@@ -20440,9 +20440,10 @@ async function run() {
         },
         body: formData
       });
-      core2.debug(`Response json: ${JSON.stringify(await res.json())}`);
+      const jsonResponse = JSON.stringify(await res.json());
+      core2.debug(`Response json: ${jsonResponse}`);
       if (!res.ok) {
-        core2.info(`Response json: ${JSON.stringify(await res.json())}`);
+        core2.info(`Response json: ${jsonResponse}`);
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`
         );
