@@ -48,7 +48,7 @@ async function run(): Promise<void> {
 
       if (!res.ok) {
         throw new Error(
-          `Sending failed with response: [${res.status}] ${res.statusText}`
+          `Sending failed with response: [${res.status}] ${res.statusText}`,
         );
       }
       core.debug(`Response json: ${JSON.stringify(await res.json())}`);
