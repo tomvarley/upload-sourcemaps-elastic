@@ -44,14 +44,14 @@ async function run(): Promise<void> {
         body: formData,
       });
 
-      core.debug(`Raw response: ${res}`);
+      core.debug(`Response json: ${JSON.stringify(await res.json())}`);
 
       if (!res.ok) {
+        core.info(`Response json: ${JSON.stringify(await res.json())}`);
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`,
         );
       }
-      core.debug(`Response json: ${JSON.stringify(await res.json())}`);
     }
   } catch (error) {
     if (error instanceof Error) {

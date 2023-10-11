@@ -20440,13 +20440,13 @@ async function run() {
         },
         body: formData
       });
-      core2.debug(`Raw response: ${res}`);
+      core2.debug(`Response json: ${JSON.stringify(await res.json())}`);
       if (!res.ok) {
+        core2.info(`Response json: ${JSON.stringify(await res.json())}`);
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`
         );
       }
-      core2.debug(`Response json: ${JSON.stringify(await res.json())}`);
     }
   } catch (error2) {
     if (error2 instanceof Error) {
