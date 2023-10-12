@@ -1,9 +1,10 @@
 import path from "path";
 import * as core from "@actions/core";
 import jetpack from "fs-jetpack";
-import fetch from "node-fetch";
 import { default as FormData } from "form-data";
 import { getConfig } from "./action";
+import axios from "axios";
+import * as fs from "fs";
 
 async function run(): Promise<void> {
   try {
@@ -21,9 +22,7 @@ async function run(): Promise<void> {
       const formData = new FormData();
 
       const url = `${config.base_url}/${path.parse(sourcemap).base}`;
-      const fileStream = jetpack.createReadStream(sourcemap, {
-        encoding: "utf8",
-      });
+      const fileStream =  await fs.promises.readFile(sourcemap, {encoding: 'utf-8'})
 
       formData.append("service_name", config.service_name);
       formData.append("service_version", config.service_version);
@@ -34,21 +33,19 @@ async function run(): Promise<void> {
 
       core.info(`Sending sourcemap: ${sourcemap} with url ${url} to Elastic`);
 
-      const res = await fetch(`${config.elastic_url}/api/apm/sourcemaps`, {
-        method: "POST",
+      const res = await axios.post(`https://phocas-software-elastic-cloud.kb.us-west-2.aws.found.io:9243/api/apm/sourcemaps`, formData, {
         headers: {
           Authorization: `ApiKey ${config.token}`,
-          "Content-Type": `multipart/form-data; boundary=${formData.getBoundary()}`,
+          "Content-Type": `multipart/form-data`,
           "kbn-xsrf": "true",
-        },
-        body: formData,
+        }
       });
 
-      const jsonResponse = JSON.stringify(await res.json())
+      const jsonResponse = JSON.stringify(res)
 
       core.debug(`Response json: ${jsonResponse}`);
 
-      if (!res.ok) {
+      if (!(res.status === 200)) {
         core.info(`Response json: ${jsonResponse}`);
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`,
