@@ -41,8 +41,7 @@ async function run(): Promise<void> {
         }
       });
 
-      const jsonResponse = JSON.stringify(res)
-      core.debug(`Response json: ${jsonResponse}`);
+      core.debug(`Response status: ${res.status}`);
 
     }
   } catch (error) {
