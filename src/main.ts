@@ -42,19 +42,14 @@ async function run(): Promise<void> {
       });
 
       const jsonResponse = JSON.stringify(res)
-
       core.debug(`Response json: ${jsonResponse}`);
 
-      if (!(res.status === 200)) {
-        core.info(`Response json: ${jsonResponse}`);
-        throw new Error(
-          `Sending failed with response: [${res.status}] ${res.statusText}`,
-        );
-      }
     }
   } catch (error) {
     if (error instanceof Error) {
       core.error(`Failed: ${error.message}`);
+
+      core.error(JSON.stringify(error))
 
       error.stack && core.debug(error.stack);
       core.setFailed(error.message);

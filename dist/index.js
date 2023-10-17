@@ -19023,16 +19023,11 @@ async function run() {
       });
       const jsonResponse = JSON.stringify(res);
       core2.debug(`Response json: ${jsonResponse}`);
-      if (!(res.status === 200)) {
-        core2.info(`Response json: ${jsonResponse}`);
-        throw new Error(
-          `Sending failed with response: [${res.status}] ${res.statusText}`
-        );
-      }
     }
   } catch (error2) {
     if (error2 instanceof Error) {
       core2.error(`Failed: ${error2.message}`);
+      core2.error(JSON.stringify(error2));
       error2.stack && core2.debug(error2.stack);
       core2.setFailed(error2.message);
     }
