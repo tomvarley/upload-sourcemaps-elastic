@@ -48,8 +48,6 @@ async function run(): Promise<void> {
     if (error instanceof Error) {
       core.error(`Failed: ${error.message}`);
 
-      core.error(JSON.stringify(error))
-
       error.stack && core.debug(error.stack);
       core.setFailed(error.message);
     }
