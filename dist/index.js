@@ -19021,13 +19021,11 @@ async function run() {
           "kbn-xsrf": "true"
         }
       });
-      const jsonResponse = JSON.stringify(res);
-      core2.debug(`Response json: ${jsonResponse}`);
+      core2.debug(`Response status: ${res.status}`);
     }
   } catch (error2) {
     if (error2 instanceof Error) {
       core2.error(`Failed: ${error2.message}`);
-      core2.error(JSON.stringify(error2));
       error2.stack && core2.debug(error2.stack);
       core2.setFailed(error2.message);
     }
