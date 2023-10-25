@@ -1,10 +1,10 @@
 import path from "path";
+import * as fs from "fs";
 import * as core from "@actions/core";
 import jetpack from "fs-jetpack";
 import { default as FormData } from "form-data";
-import { getConfig } from "./action";
 import axios from "axios";
-import * as fs from "fs";
+import { getConfig } from "./action";
 
 async function run(): Promise<void> {
   try {
@@ -22,7 +22,9 @@ async function run(): Promise<void> {
       const formData = new FormData();
 
       const url = `${config.base_url}/${path.parse(sourcemap).base}`;
-      const fileStream =  await fs.promises.readFile(sourcemap, {encoding: 'utf-8'})
+      const fileStream = await fs.promises.readFile(sourcemap, {
+        encoding: "utf-8",
+      });
 
       formData.append("service_name", config.service_name);
       formData.append("service_version", config.service_version);
@@ -33,16 +35,19 @@ async function run(): Promise<void> {
 
       core.info(`Sending sourcemap: ${sourcemap} with url ${url} to Elastic`);
 
-      const res = await axios.post(`https://phocas-software-elastic-cloud.kb.us-west-2.aws.found.io:9243/api/apm/sourcemaps`, formData, {
-        headers: {
-          Authorization: `ApiKey ${config.token}`,
-          "Content-Type": `multipart/form-data`,
-          "kbn-xsrf": "true",
-        }
-      });
+      const res = await axios.post(
+        `https://phocas-software-elastic-cloud.kb.us-west-2.aws.found.io:9243/api/apm/sourcemaps`,
+        formData,
+        {
+          headers: {
+            Authorization: `ApiKey ${config.token}`,
+            "Content-Type": `multipart/form-data`,
+            "kbn-xsrf": "true",
+          },
+        },
+      );
 
       core.debug(`Response status: ${res.status}`);
-
     }
   } catch (error) {
     if (error instanceof Error) {

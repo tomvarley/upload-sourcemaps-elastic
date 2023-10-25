@@ -16098,28 +16098,10 @@ var require_follow_redirects = __commonJS({
 
 // src/main.ts
 var import_path = __toESM(require("path"));
+var fs = __toESM(require("fs"));
 var core2 = __toESM(require_core());
 var import_fs_jetpack = __toESM(require_main());
 var import_form_data2 = __toESM(require_form_data());
-
-// src/action.ts
-var core = __toESM(require_core());
-function getConfig() {
-  return {
-    token: core.getInput("token", { required: true }),
-    elastic_url: core.getInput("elastic_url", { required: true }),
-    base_url: trimTrailingSlash(core.getInput("base_url", { required: true })),
-    service_name: core.getInput("service_name", { required: true }),
-    service_version: core.getInput("service_version", { required: true }),
-    folder: (() => {
-      const input = core.getInput("folder");
-      return input === "" ? "./" : input;
-    })()
-  };
-}
-function trimTrailingSlash(url2) {
-  return url2.endsWith("/") ? url2.slice(0, -1) : url2;
-}
 
 // node_modules/axios/lib/helpers/bind.js
 function bind(fn, thisArg) {
@@ -18994,8 +18976,26 @@ var {
   mergeConfig: mergeConfig2
 } = axios_default;
 
+// src/action.ts
+var core = __toESM(require_core());
+function getConfig() {
+  return {
+    token: core.getInput("token", { required: true }),
+    elastic_url: core.getInput("elastic_url", { required: true }),
+    base_url: trimTrailingSlash(core.getInput("base_url", { required: true })),
+    service_name: core.getInput("service_name", { required: true }),
+    service_version: core.getInput("service_version", { required: true }),
+    folder: (() => {
+      const input = core.getInput("folder");
+      return input === "" ? "./" : input;
+    })()
+  };
+}
+function trimTrailingSlash(url2) {
+  return url2.endsWith("/") ? url2.slice(0, -1) : url2;
+}
+
 // src/main.ts
-var fs = __toESM(require("fs"));
 async function run() {
   try {
     const config = getConfig();
@@ -19007,20 +19007,26 @@ async function run() {
     for (const sourcemap of sourcemaps) {
       const formData = new import_form_data2.default();
       const url2 = `${config.base_url}/${import_path.default.parse(sourcemap).base}`;
-      const fileStream = await fs.promises.readFile(sourcemap, { encoding: "utf-8" });
+      const fileStream = await fs.promises.readFile(sourcemap, {
+        encoding: "utf-8"
+      });
       formData.append("service_name", config.service_name);
       formData.append("service_version", config.service_version);
       formData.append("bundle_filepath", url2);
       formData.append("sourcemap", fileStream);
       core2.debug(`Calling url: ${config.elastic_url}/api/apm/sourcemaps`);
       core2.info(`Sending sourcemap: ${sourcemap} with url ${url2} to Elastic`);
-      const res = await axios_default.post(`https://phocas-software-elastic-cloud.kb.us-west-2.aws.found.io:9243/api/apm/sourcemaps`, formData, {
-        headers: {
-          Authorization: `ApiKey ${config.token}`,
-          "Content-Type": `multipart/form-data`,
-          "kbn-xsrf": "true"
+      const res = await axios_default.post(
+        `https://phocas-software-elastic-cloud.kb.us-west-2.aws.found.io:9243/api/apm/sourcemaps`,
+        formData,
+        {
+          headers: {
+            Authorization: `ApiKey ${config.token}`,
+            "Content-Type": `multipart/form-data`,
+            "kbn-xsrf": "true"
+          }
         }
-      });
+      );
       core2.debug(`Response status: ${res.status}`);
     }
   } catch (error2) {
