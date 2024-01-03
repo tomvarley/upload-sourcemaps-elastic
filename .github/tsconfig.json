@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>phocassoftware/renovate-config", "group:allNonMajor", "schedule:monthly"],
+  "timezone": "Pacific/Auckland",
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 3,
+  "rangeStrategy": "bump",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "autoApprove": true,
+    "automerge": true,
+    "schedule": ["every 3 months on the first day of the month"]
+  },
+  "packageRules": [
+    {
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "autoApprove": true,
+      "automerge": true
+    }
+  ],
+  "transitiveRemediation": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": true,
+    "autoApprove": true,
+    "schedule": ["at any time"]
+  }
+}
