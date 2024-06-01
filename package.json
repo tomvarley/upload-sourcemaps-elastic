@@ -40,7 +40,7 @@
     "chalk": "^5.0.1",
     "esbuild": "^0.20.2",
     "eslint": "^8.52.0",
-    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-github": "^4.10.2",
     "eslint-plugin-import": "^2.29.0",
